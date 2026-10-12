@@ -16,6 +16,16 @@ public class PlayerControler : MonoBehaviour
     Rigidbody _Rb { get; set; }
     Camera _MainCamera { get; set; }
 
+    // Variables pour mécaniques
+    int HP = 1;
+    [SerializeField] public int Max_Mana = 1;
+    [SerializeField] public int Current_Mana = 1;
+    int Mana_Growth = 1;
+    // À chaque 1.5 seconde, 1 mana est récupéré, seulement au sol
+    float Mana_Regen_Delay = 1.5f;
+    Coroutine manaRegenCoroutine;
+    float ParryWindowAbsorbMagic = 0.5f;
+
     // Valeurs exposées
     [SerializeField]
     float MoveSpeed = 5.0f;
@@ -48,6 +58,46 @@ public class PlayerControler : MonoBehaviour
         HorizontalMove(horizontal);
         FlipCharacter(horizontal);
         CheckJump();
+        CheckHP();
+
+        if (_Grounded && manaRegenCoroutine == null)
+        {
+            manaRegenCoroutine = StartCoroutine(RegenMana());
+        }
+        else if (!_Grounded && manaRegenCoroutine != null)
+        {
+            StopCoroutine(manaRegenCoroutine);
+            manaRegenCoroutine = null;
+        }
+    }
+
+    IEnumerator RegenMana()
+    {
+        while (_Grounded)
+        {
+            yield return new WaitForSeconds(Mana_Regen_Delay);
+            if (_Grounded && Current_Mana < Max_Mana)
+            {
+                Current_Mana++;
+            }
+        }
+        manaRegenCoroutine = null;
+    }
+
+    void CheckHP()
+    {
+        if (HP <= 0)
+        {
+            Respawn();
+        }
+    }
+
+    void Respawn()
+    {
+        Current_Mana = Max_Mana;
+        // On retourne le joueur au début du niveau
+        _Rb.position = new Vector3(0f, 0f, 0f);
+        HP = 1;
     }
 
     // Gère le mouvement horizontal
@@ -93,7 +143,7 @@ public class PlayerControler : MonoBehaviour
 
     // Collision avec le sol
     void OnCollisionEnter(Collision coll)
-    {        
+    {
         // On s'assure de bien être en contact avec le sol
         if ((WhatIsGround & (1 << coll.gameObject.layer)) == 0)
             return;

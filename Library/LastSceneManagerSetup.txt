@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/BaseScene.unity
+- path: Assets/Gyms/Mana/Mana.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
