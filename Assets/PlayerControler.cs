@@ -26,6 +26,12 @@ public class PlayerControler : MonoBehaviour
     Coroutine manaRegenCoroutine;
     float ParryWindowAbsorbMagic = 0.5f;
 
+
+    // Pour des escaliers et petits obstacles
+    [SerializeField] float StepHeight = 0.75f;
+    [SerializeField] float StepCheckDistance = 0.4f;
+    [SerializeField] float StepSmooth = 5f;
+    [SerializeField] float StepForwardOffset = 0.05f;
     // Valeurs exposées
     [SerializeField]
     float MoveSpeed = 5.0f;
@@ -59,6 +65,7 @@ public class PlayerControler : MonoBehaviour
         FlipCharacter(horizontal);
         CheckJump();
         CheckHP();
+        CheckStep();
 
         if (_Grounded && manaRegenCoroutine == null)
         {
@@ -68,6 +75,30 @@ public class PlayerControler : MonoBehaviour
         {
             StopCoroutine(manaRegenCoroutine);
             manaRegenCoroutine = null;
+        }
+    }
+
+    void CheckStep()
+    {
+        if (!_Grounded) return;
+        Vector3 direction = Vector3.forward * Mathf.Sign(_Rb.linearVelocity.z);
+        Vector3 origin = transform.position + Vector3.up * StepHeight;
+
+        if (Physics.Raycast(origin, direction, out RaycastHit hit, StepCheckDistance, WhatIsGround)) return;
+
+        Vector3 lowerOrigin = transform.position + Vector3.up * 0.05f;
+
+        if (Physics.Raycast(lowerOrigin, direction, out hit, StepCheckDistance, WhatIsGround))
+        {
+            Vector3 upperOrigin = hit.point + Vector3.up * (StepHeight + 0.05f);
+            if (!Physics.Raycast(upperOrigin, Vector3.down, out RaycastHit stepHit, StepHeight + 0.1f, WhatIsGround)) return;
+
+            float heightDifference = stepHit.point.y - transform.position.y;
+
+            if (heightDifference > 0.05f && heightDifference <= StepHeight)
+            {
+                _Rb.position += Vector3.up * heightDifference * Time.fixedDeltaTime * StepSmooth;
+            }
         }
     }
 
