@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class PlayerControler : MonoBehaviour
 {
+    public float MoveSpeedValue => MoveSpeed;
+    public float JumpForceValue => JumpForce;
+
+    public bool isMagicSuppressed => antiMagicZoneCount > 0;
+    
     // Déclaration des constantes
     private static readonly Vector3 FlipRotation = new Vector3(0, 180, 0);
     private static readonly Vector3 CameraPosition = new Vector3(10, 1, 0);
@@ -15,6 +20,8 @@ public class PlayerControler : MonoBehaviour
     Animator _Anim { get; set; }
     Rigidbody _Rb { get; set; }
     Camera _MainCamera { get; set; }
+
+    int antiMagicZoneCount = 0;
 
     // Variables pour mécaniques
     int HP = 1;
@@ -151,6 +158,16 @@ public class PlayerControler : MonoBehaviour
                 _Anim.SetBool("Jump", true);
             }
         }
+    }
+
+    public void EnterAntiMagicZone()
+    {
+        antiMagicZoneCount++;
+    }
+
+    public void ExitAntiMagicZone()
+    {
+        antiMagicZoneCount--;
     }
 
     // Gère l'orientation du joueur et les ajustements de la camera
