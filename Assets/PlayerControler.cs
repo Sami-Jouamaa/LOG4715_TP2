@@ -125,10 +125,19 @@ public class PlayerControler : MonoBehaviour
 
     void Respawn()
     {
+        DestroyAllProjectiles();
         Current_Mana = Max_Mana;
-        // On retourne le joueur au début du niveau
-        _Rb.position = new Vector3(0f, 0f, 0f);
         HP = 1;
+        // On retourne le joueur au début du niveau ou au dernier checkpoint
+        _Rb.position = new Vector3(1f, 1f, 1f);
+    }
+
+    void DestroyAllProjectiles()
+    {
+        foreach (GameObject projectile in GameObject.FindGameObjectsWithTag("Projectile"))
+        {
+            Destroy(projectile);
+        }
     }
 
     // Gère le mouvement horizontal
@@ -175,15 +184,23 @@ public class PlayerControler : MonoBehaviour
     // Collision avec le sol
     void OnCollisionEnter(Collision coll)
     {
-        // On s'assure de bien être en contact avec le sol
-        if ((WhatIsGround & (1 << coll.gameObject.layer)) == 0)
-            return;
-
-        // Évite une collision avec le plafond
-        if (coll.relativeVelocity.y > 0)
+        if (coll.gameObject.layer == 6)
         {
-            _Grounded = true;
-            _Anim.SetBool("Grounded", _Grounded);
+            HP--;
+        }
+        // On s'assure de bien être en contact avec le sol
+        if ((WhatIsGround.value & (1 << coll.gameObject.layer)) == 0)
+        {
+            foreach (ContactPoint contact in coll.contacts)
+            {
+                if (contact.normal.y > 0.5f)
+                {
+                    _Grounded = true;
+                    _Anim.SetBool("Grounded", true);
+                    _Anim.SetBool("Jump", false);
+                    break;
+                }
+            }
         }
     }
 }

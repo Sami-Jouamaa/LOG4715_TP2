@@ -49,11 +49,16 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.3.23f1\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Gyms\PiegeProjectiles\Arrow.cs" />
+    <Compile Include="Assets\Gyms\PiegeProjectiles\ProjectileShooter.cs" />
     <Compile Include="Assets\Supercyan Character Pack Free Sample\Scripts\SimpleCharacterControl.cs" />
     <Compile Include="Assets\Supercyan Character Pack Free Sample\Scripts\CameraLogic.cs" />
     <Compile Include="Assets\ManaController.cs" />
     <Compile Include="Assets\PlayerControler.cs" />
     <Compile Include="Assets\Supercyan Character Pack Free Sample\Scripts\Demo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Free medieval weapons\README.txt" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
