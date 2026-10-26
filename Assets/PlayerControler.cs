@@ -8,6 +8,8 @@ public class PlayerControler : MonoBehaviour
     public float JumpForceValue => JumpForce;
 
     public bool isMagicSuppressed => antiMagicZoneCount > 0;
+
+    public bool IsGrounded => _Grounded;
     
     // Déclaration des constantes
     private static readonly Vector3 FlipRotation = new Vector3(0, 180, 0);
@@ -168,6 +170,18 @@ public class PlayerControler : MonoBehaviour
     public void ExitAntiMagicZone()
     {
         antiMagicZoneCount--;
+    }
+
+    public void SetGrounded(bool grounded)
+    {
+        _Grounded = grounded;
+        _Anim.SetBool("Grounded", grounded);
+    }
+
+    public bool IsStandingOnGround()
+    {
+        return Physics.Raycast(transform.position + Vector3.up * 0.1f, Vector3.down, 0.25f, WhatIsGround);
+
     }
 
     // Gère l'orientation du joueur et les ajustements de la camera
