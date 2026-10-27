@@ -43,7 +43,7 @@
     <UnityVersion>6000.3.23f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Users\Sami\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.3.2\Analyzers\Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="C:\Users\helpr\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.3.2\Analyzers\Microsoft.Unity.Analyzers.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.3.23f1\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.3.23f1\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.3.23f1\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
@@ -51,9 +51,16 @@
   <ItemGroup>
     <Compile Include="Assets\Gyms\PiegeProjectiles\Arrow.cs" />
     <Compile Include="Assets\Gyms\PiegeProjectiles\ProjectileShooter.cs" />
+    <Compile Include="Assets\CloudBurst.cs" />
     <Compile Include="Assets\Supercyan Character Pack Free Sample\Scripts\SimpleCharacterControl.cs" />
+    <Compile Include="Assets\SlimeTestArena.cs" />
     <Compile Include="Assets\Supercyan Character Pack Free Sample\Scripts\CameraLogic.cs" />
+    <Compile Include="Assets\Gyms\Fireball\Fireball.cs" />
+    <Compile Include="Assets\SlimePatch.cs" />
     <Compile Include="Assets\ManaController.cs" />
+    <Compile Include="Assets\AntiMagicZone.cs" />
+    <Compile Include="Assets\ConjureSlime.cs" />
+    <Compile Include="Assets\Gyms\Fireball\FireballProjectile.cs" />
     <Compile Include="Assets\PlayerControler.cs" />
     <Compile Include="Assets\Supercyan Character Pack Free Sample\Scripts\Demo.cs" />
   </ItemGroup>
@@ -1099,6 +1106,10 @@
     </Reference>
     <Reference Include="Unity.PlasticSCM.Editor.Assistant">
       <HintPath>Library\ScriptAssemblies\Unity.PlasticSCM.Editor.Assistant.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.2D.Sprite.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.UI.Analytics">

@@ -10,7 +10,8 @@ public class PlayerControler : MonoBehaviour
     public bool isMagicSuppressed => antiMagicZoneCount > 0;
 
     public bool IsGrounded => _Grounded;
-    
+    public int CurrentMana => Current_Mana;
+    public bool IsFlipped => _Flipped;
     // Déclaration des constantes
     private static readonly Vector3 FlipRotation = new Vector3(0, 180, 0);
     private static readonly Vector3 CameraPosition = new Vector3(10, 1, 0);
@@ -22,6 +23,8 @@ public class PlayerControler : MonoBehaviour
     Animator _Anim { get; set; }
     Rigidbody _Rb { get; set; }
     Camera _MainCamera { get; set; }
+    float horizontalInput;
+    float externalHorizontalVelocity;
 
     int antiMagicZoneCount = 0;
 
@@ -44,6 +47,9 @@ public class PlayerControler : MonoBehaviour
     // Valeurs exposées
     [SerializeField]
     float MoveSpeed = 5.0f;
+
+    [SerializeField]
+    float HorizontalMomentumDamping = 4f;
 
     [SerializeField]
     float JumpForce = 10f;
@@ -70,7 +76,8 @@ public class PlayerControler : MonoBehaviour
     void Update()
     {
         var horizontal = Input.GetAxis("Horizontal") * MoveSpeed;
-        HorizontalMove(horizontal);
+        horizontalInput = horizontal;
+        _Anim.SetFloat("MoveSpeed", Mathf.Abs(horizontal));
         FlipCharacter(horizontal);
         CheckJump();
         CheckHP();
@@ -87,6 +94,37 @@ public class PlayerControler : MonoBehaviour
         }
     }
 
+    void FixedUpdate()
+    {
+        externalHorizontalVelocity = Mathf.MoveTowards(
+            externalHorizontalVelocity,
+            0f,
+            HorizontalMomentumDamping * Time.fixedDeltaTime
+        );
+
+        Vector3 velocity = _Rb.linearVelocity;
+        velocity.z = horizontalInput + externalHorizontalVelocity;
+        _Rb.linearVelocity = velocity;
+    }
+
+    public void ApplyVelocityChange(Vector3 velocityChange)
+    {
+        _Rb.linearVelocity += new Vector3(
+            velocityChange.x,
+            velocityChange.y,
+            0f
+        );
+        externalHorizontalVelocity += velocityChange.z;
+    }
+
+    public bool TrySpendMana(int amount)
+    {
+        if (isMagicSuppressed || Current_Mana < amount || amount <= 0)
+            return false;
+
+        Current_Mana -= amount;
+        return true;
+    }
     void CheckStep()
     {
         if (!_Grounded) return;
@@ -149,13 +187,6 @@ public class PlayerControler : MonoBehaviour
         }
     }
 
-    // Gère le mouvement horizontal
-    void HorizontalMove(float horizontal)
-    {
-        _Rb.linearVelocity = new Vector3(_Rb.linearVelocity.x, _Rb.linearVelocity.y, horizontal);
-        _Anim.SetFloat("MoveSpeed", Mathf.Abs(horizontal));
-    }
-
     // Gère le saut du personnage, ainsi que son animation de saut
     void CheckJump()
     {
@@ -213,25 +244,30 @@ public class PlayerControler : MonoBehaviour
     }
 
     // Collision avec le sol
-    void OnCollisionEnter(Collision coll)
+
+void OnCollisionEnter(Collision coll)
+{
+    if (coll.gameObject.layer == 6)
     {
-        if (coll.gameObject.layer == 6)
+        HP--;
+    }
+
+    // Ignore collisions with objects that are not ground.
+    if ((WhatIsGround.value & (1 << coll.gameObject.layer)) == 0)
+        return;
+
+    // Only count a collision as grounding if the contact
+    // surface is underneath the player.
+    foreach (ContactPoint contact in coll.contacts)
+    {
+        if (contact.normal.y > 0.5f)
         {
-            HP--;
-        }
-        // On s'assure de bien être en contact avec le sol
-        if ((WhatIsGround.value & (1 << coll.gameObject.layer)) == 0)
-        {
-            foreach (ContactPoint contact in coll.contacts)
-            {
-                if (contact.normal.y > 0.5f)
-                {
-                    _Grounded = true;
-                    _Anim.SetBool("Grounded", true);
-                    _Anim.SetBool("Jump", false);
-                    break;
-                }
-            }
+            _Grounded = true;
+            _Anim.SetBool("Grounded", true);
+            _Anim.SetBool("Jump", false);
+            return;
         }
     }
+}
+
 }
