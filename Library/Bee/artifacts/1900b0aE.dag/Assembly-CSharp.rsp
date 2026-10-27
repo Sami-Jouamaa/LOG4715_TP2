@@ -421,6 +421,7 @@
 "Assets/AntiMagicZone.cs"
 "Assets/CloudBurst.cs"
 "Assets/ConjureSlime.cs"
+"Assets/Gyms/AbsorbMagic/AbsorbMagic.cs"
 "Assets/Gyms/Fireball/Fireball.cs"
 "Assets/Gyms/Fireball/FireballProjectile.cs"
 "Assets/Gyms/PiegeProjectiles/Arrow.cs"
