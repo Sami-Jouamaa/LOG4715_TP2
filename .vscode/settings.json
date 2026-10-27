@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "LOG4715_TP2.sln"
+    "dotnet.defaultSolution": "LOG4715_TP2.slnx"
 }
