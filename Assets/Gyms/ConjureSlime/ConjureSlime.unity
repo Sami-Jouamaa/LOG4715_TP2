@@ -2881,7 +2881,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ConjureSlime
   player: {fileID: 0}
-  manaCost: 0
+  manaCost: 3
   activateKey: 99
   conjureKey: 101
   exitAfterPlace: 1
