@@ -171,6 +171,7 @@ MonoBehaviour:
   StepSmooth: 5
   StepForwardOffset: 0.05
   MoveSpeed: 5
+  HorizontalMomentumDamping: 4
   JumpForce: 10
   WhatIsGround:
     serializedVersion: 2
@@ -835,6 +836,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1835754022}
+    - targetCorrespondingSourceObject: {fileID: 1968476592218994, guid: 313ad0ef31f75b84f9f31c0528802fdd,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1835754027}
     - targetCorrespondingSourceObject: {fileID: 1258019779867072, guid: 313ad0ef31f75b84f9f31c0528802fdd,
         type: 3}
       insertIndex: -1
@@ -871,6 +876,7 @@ MonoBehaviour:
   StepSmooth: 5
   StepForwardOffset: 0.05
   MoveSpeed: 4
+  HorizontalMomentumDamping: 4
   JumpForce: 7
   WhatIsGround:
     serializedVersion: 2
@@ -944,6 +950,30 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &1835754027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1835754020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02ac1800b7b6cc34b98f46ccc4e4fb41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CloudBurst
+  player: {fileID: 0}
+  manaCost: 1
+  dashKey: 304
+  horizontalAxis: Horizontal
+  moveAxis: {x: 0, y: 0, z: 1}
+  dashDistance: 5.7
+  dashDuration: 0.2
+  cooldown: 0.25
+  disableGravityDuringDash: 1
+  trail: {fileID: 0}
+  cloudBurstFx: {fileID: 0}
+  trailColor: {r: 0.8, g: 0.9, b: 1, a: 0.8}
 --- !u!1 &2016956827
 GameObject:
   m_ObjectHideFlags: 0

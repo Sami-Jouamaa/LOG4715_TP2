@@ -1961,7 +1961,7 @@ GameObject:
   - component: {fileID: 1341020398}
   - component: {fileID: 1341020397}
   - component: {fileID: 1341020396}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Surplomb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2758,6 +2758,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1835754022}
+    - targetCorrespondingSourceObject: {fileID: 1968476592218994, guid: 313ad0ef31f75b84f9f31c0528802fdd,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1835754027}
   m_SourcePrefab: {fileID: 100100000, guid: 313ad0ef31f75b84f9f31c0528802fdd, type: 3}
 --- !u!1 &1835754020 stripped
 GameObject:
@@ -2790,6 +2794,7 @@ MonoBehaviour:
   StepSmooth: 5
   StepForwardOffset: 0.05
   MoveSpeed: 4
+  HorizontalMomentumDamping: 4
   JumpForce: 7
   WhatIsGround:
     serializedVersion: 2
@@ -2863,6 +2868,45 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &1835754027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1835754020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7aeabd81f8f8b34ea5f0476a9ed157e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ConjureSlime
+  player: {fileID: 0}
+  manaCost: 0
+  activateKey: 99
+  conjureKey: 101
+  exitAfterPlace: 1
+  horizontalAxis: Horizontal
+  verticalAxis: Vertical
+  cooldown: 0.3
+  moveAxis: {x: 0, y: 0, z: 1}
+  placeRange: 2.5
+  aimHeight: 0.8
+  floorLookAhead: 1.2
+  placeableSurfaces:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  slimePrefab: {fileID: 0}
+  slimeSize: 1.5
+  slimeThickness: 0.15
+  lifetime: 15
+  maxActiveSlimes: 2
+  slimeColor: {r: 0.35, g: 0.9, b: 0.3, a: 0.85}
+  stickyWalls: 1
+  wallSlideSpeed: 1.5
+  regenDelay: 1.5
+  showPreview: 1
+  previewOk: {r: 0.35, g: 0.9, b: 0.3, a: 0.35}
+  previewNoMana: {r: 0.9, g: 0.3, b: 0.3, a: 0.35}
 --- !u!1 &2016956827
 GameObject:
   m_ObjectHideFlags: 0
