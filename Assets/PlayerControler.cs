@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -63,6 +64,7 @@ public class PlayerControler : MonoBehaviour
         _Anim = GetComponent<Animator>();
         _Rb = GetComponent<Rigidbody>();
         _MainCamera = Camera.main;
+        Current_Mana = Max_Mana;
     }
 
     // Utile pour régler des valeurs aux objets
@@ -147,6 +149,11 @@ public class PlayerControler : MonoBehaviour
                 _Rb.position += Vector3.up * heightDifference * Time.fixedDeltaTime * StepSmooth;
             }
         }
+    }
+
+    public void RefundMana(int mana)
+    {
+        Current_Mana = Math.Min(Current_Mana + mana, Max_Mana);
     }
 
     IEnumerator RegenMana()
@@ -244,30 +251,30 @@ public class PlayerControler : MonoBehaviour
     }
 
     // Collision avec le sol
-
-void OnCollisionEnter(Collision coll)
-{
-    if (coll.gameObject.layer == 6)
+    void OnCollisionEnter(Collision coll)
     {
-        HP--;
-    }
-
-    // Ignore collisions with objects that are not ground.
-    if ((WhatIsGround.value & (1 << coll.gameObject.layer)) == 0)
-        return;
-
-    // Only count a collision as grounding if the contact
-    // surface is underneath the player.
-    foreach (ContactPoint contact in coll.contacts)
-    {
-        if (contact.normal.y > 0.5f)
+        if (coll.gameObject.layer == 6)
         {
-            _Grounded = true;
-            _Anim.SetBool("Grounded", true);
-            _Anim.SetBool("Jump", false);
+            AbsorbMagic parry = GetComponent<AbsorbMagic>();
+            if (!parry.TryParry()) HP--;
             return;
         }
-    }
-}
 
+        // Ignore collisions with objects that are not ground.
+        if ((WhatIsGround.value & (1 << coll.gameObject.layer)) == 0)
+            return;
+
+        // Only count a collision as grounding if the contact
+        // surface is underneath the player.
+        foreach (ContactPoint contact in coll.contacts)
+        {
+            if (contact.normal.y > 0.5f)
+            {
+                _Grounded = true;
+                _Anim.SetBool("Grounded", true);
+                _Anim.SetBool("Jump", false);
+                return;
+            }
+        }
+    }
 }
