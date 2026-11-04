@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class PlayerControler : MonoBehaviour
 {
+    public static event System.Action<PlayerControler> Respawned;
+
     public float MoveSpeedValue => MoveSpeed;
     public float JumpForceValue => JumpForce;
 
@@ -169,6 +171,12 @@ public class PlayerControler : MonoBehaviour
         manaRegenCoroutine = null;
     }
 
+    public void TakeDamage(int damage)
+    {
+        HP -= damage;
+
+        Debug.Log("Player hit! HP: " + HP);
+    }
     void CheckHP()
     {
         if (HP <= 0)
@@ -183,7 +191,10 @@ public class PlayerControler : MonoBehaviour
         Current_Mana = Max_Mana;
         HP = 1;
         // On retourne le joueur au début du niveau ou au dernier checkpoint
-        _Rb.position = new Vector3(1f, 1f, 1f);
+        _Rb.position = new Vector3(0f, 1f, 1f);
+        _Rb.linearVelocity = Vector3.zero;
+        _Rb.angularVelocity = Vector3.zero;
+        Respawned?.Invoke(this);
     }
 
     void DestroyAllProjectiles()

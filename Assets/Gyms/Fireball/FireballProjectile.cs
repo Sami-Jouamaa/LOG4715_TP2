@@ -4,7 +4,7 @@ using UnityEngine;
 public class FireballProjectile : MonoBehaviour
 {
     [Header("Projectile Settings")]
-    [SerializeField] private float speed = 10f;
+    [SerializeField] private float speed = 4f;
     [SerializeField] private float lifetime = 3f;
 
     [Header("Visual Rotation")]

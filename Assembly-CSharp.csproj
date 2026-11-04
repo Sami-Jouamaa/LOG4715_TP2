@@ -51,14 +51,17 @@
   <ItemGroup>
     <Compile Include="Assets\Gyms\PiegeProjectiles\Arrow.cs" />
     <Compile Include="Assets\Gyms\PiegeProjectiles\ProjectileShooter.cs" />
+    <Compile Include="Assets\Gyms\StoneFist\StoneFistDetection.cs" />
     <Compile Include="Assets\Supercyan Character Pack Free Sample\Scripts\SimpleCharacterControl.cs" />
     <Compile Include="Assets\Gyms\AbsorbMagic\AbsorbMagic.cs" />
     <Compile Include="Assets\SlimeTestArena.cs" />
+    <Compile Include="Assets\Gyms\StoneFist\StoneFistTrapController.cs" />
     <Compile Include="Assets\Supercyan Character Pack Free Sample\Scripts\CameraLogic.cs" />
     <Compile Include="Assets\Gyms\Fireball\Fireball.cs" />
     <Compile Include="Assets\Gyms\AntiMagicZone\AntiMagicZone.cs" />
     <Compile Include="Assets\Gyms\ConjureSlime\ConjureSlime.cs" />
     <Compile Include="Assets\Gyms\CloudBurst\CloudBurst.cs" />
+    <Compile Include="Assets\Gyms\StoneFist\StoneFistKill.cs" />
     <Compile Include="Assets\ManaController.cs" />
     <Compile Include="Assets\Gyms\ConjureSlime\SlimePatch.cs" />
     <Compile Include="Assets\Gyms\Fireball\FireballProjectile.cs" />
