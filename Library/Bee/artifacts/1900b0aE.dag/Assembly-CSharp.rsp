@@ -430,6 +430,7 @@
 "Assets/Gyms/StoneFist/StoneFistDetection.cs"
 "Assets/Gyms/StoneFist/StoneFistKill.cs"
 "Assets/Gyms/StoneFist/StoneFistTrapController.cs"
+"Assets/Gyms/Telekinesis/TelekinesisSpell.cs"
 "Assets/ManaController.cs"
 "Assets/PlayerControler.cs"
 "Assets/SlimeTestArena.cs"
