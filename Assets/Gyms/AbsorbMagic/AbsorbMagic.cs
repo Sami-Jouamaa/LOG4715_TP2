@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-public class AbsorbMagic : MonoBehaviour
+public class AbsorbMagic : MonoBehaviour, ISpell
 {
     [SerializeField] PlayerControler player;
     [SerializeField] int ManaCost = 1;
@@ -11,10 +11,16 @@ public class AbsorbMagic : MonoBehaviour
     [SerializeField] KeyCode ParryKey = KeyCode.Q;
     [SerializeField] Color EffectColour = Color.yellow;
     [SerializeField] GameObject barrierPrefab;
+    [SerializeField] Sprite SpellIcon;
     GameObject barrierVisual;
     public bool IsAbsorbing { get; private set; }
     float parryTimer;
     float cooldownTimer;
+
+    public Sprite Icon => SpellIcon;
+    public int ManaCostValue => ManaCost;
+    public KeyCode Key => ParryKey;
+    public float CooldownProgress => Cooldown > 0f ? Mathf.Clamp01(cooldownTimer / Cooldown) : 0f;
 
     void Awake()
     {
