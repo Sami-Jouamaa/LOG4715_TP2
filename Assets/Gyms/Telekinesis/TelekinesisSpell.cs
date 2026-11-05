@@ -42,6 +42,14 @@ public class TelekinesisSpell : MonoBehaviour, ISpell
 
     private void Update()
     {
+        if (Input.GetKeyDown(activationKey))
+        {
+            if (controlledBody != null)
+                DropObject();
+            else
+                TryPickUpObject();
+        }
+
         if (isHolding && Input.GetKeyUp(activationKey))
         {
             isHolding = false;
@@ -66,8 +74,6 @@ public class TelekinesisSpell : MonoBehaviour, ISpell
             nextManaDrainTime = Time.time + Mathf.Max(0.01f, manaDrainInterval);
         }
 
-        if (controlledBody == null && Input.GetKeyDown(activationKey))
-            TryPickUpObject();
     }
 
     private void FixedUpdate()

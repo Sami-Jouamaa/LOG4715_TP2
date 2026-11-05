@@ -249,15 +249,11 @@ public class PlayerControler : MonoBehaviour
         {
             _Flipped = true;
             transform.Rotate(FlipRotation);
-            _MainCamera.transform.Rotate(-FlipRotation);
-            _MainCamera.transform.localPosition = InverseCameraPosition;
         }
         else if (horizontal > 0 && _Flipped)
         {
             _Flipped = false;
             transform.Rotate(-FlipRotation);
-            _MainCamera.transform.Rotate(FlipRotation);
-            _MainCamera.transform.localPosition = CameraPosition;
         }
     }
 
@@ -267,7 +263,10 @@ public class PlayerControler : MonoBehaviour
         if (coll.gameObject.layer == 6)
         {
             AbsorbMagic parry = GetComponent<AbsorbMagic>();
-            if (!parry.TryParry()) HP--;
+
+            if (parry == null || !parry.TryParry())
+                HP--;
+
             return;
         }
 
