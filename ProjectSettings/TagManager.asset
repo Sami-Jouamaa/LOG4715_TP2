@@ -6,6 +6,7 @@ TagManager:
   tags:
   - ProjectileShooter
   - Telekinesable
+  - Projectile
   layers:
   - Default
   - TransparentFX

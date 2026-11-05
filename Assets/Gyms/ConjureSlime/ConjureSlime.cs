@@ -36,6 +36,7 @@ public class ConjureSlime : MonoBehaviour, ISpell
     [Header("Contact avec le slime")]
     [SerializeField] private bool stickyWalls = true;
     [SerializeField] private float wallSlideSpeed = 1.5f;
+    [SerializeField] private float wallJumpForce = 2f;
     [SerializeField] private float regenDelay = 1.5f;
 
     [Header("Rétroaction visuelle")]
@@ -169,7 +170,7 @@ public class ConjureSlime : MonoBehaviour, ISpell
 
         var patch = go.GetComponent<SlimePatch>();
         if (patch == null) patch = go.AddComponent<SlimePatch>();
-        patch.Init(this, player, normal.y < 0.5f, slimeColor, lifetime);
+        patch.Init(this, player, normal, slimeColor, lifetime);
 
         active.RemoveAll(s => s == null);
         active.Add(patch);
@@ -192,6 +193,21 @@ public class ConjureSlime : MonoBehaviour, ISpell
         touching.Remove(patch);
         if (touching.Count == 0 && !player.IsStandingOnGround())
             player.SetGrounded(false);
+    }
+
+    public void ApplyWallJump()
+    {
+        foreach (SlimePatch patch in touching)
+        {
+            if (patch == null)
+                continue;
+
+            float direction = Mathf.Abs(patch.WallNormal.z) > 0.1f
+                ? Mathf.Sign(patch.WallNormal.z)
+                : -dir;
+            player.ApplySlimeJumpImpulse(direction * wallJumpForce, 0.2f);
+            return;
+        }
     }
 
     // Régénération de mana sur un SLime 
