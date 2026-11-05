@@ -15,13 +15,15 @@ public class SlimePatch : MonoBehaviour
     private bool dismissing;
 
     public bool IsWall { get; private set; }
+    public Vector3 WallNormal { get; private set; }
 
-    public void Init(ConjureSlime owner, PlayerControler player, bool isWall, Color color, float lifetime)
+    public void Init(ConjureSlime owner, PlayerControler player, Vector3 surfaceNormal, Color color, float lifetime)
     {
         this.owner = owner;
         this.player = player;
         this.lifetime = lifetime;
-        IsWall = isWall;
+        WallNormal = surfaceNormal;
+        IsWall = surfaceNormal.y < 0.5f;
         baseColor = color;
         fullScale = transform.localScale;
         rend = GetComponentInChildren<Renderer>();

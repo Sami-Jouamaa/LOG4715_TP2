@@ -725,7 +725,7 @@ MonoBehaviour:
   StepForwardOffset: 0.05
   MoveSpeed: 4
   HorizontalMomentumDamping: 4
-  JumpForce: 7
+  JumpForce: 4
   WhatIsGround:
     serializedVersion: 2
     m_Bits: 256

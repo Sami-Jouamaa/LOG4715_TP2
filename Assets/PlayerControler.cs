@@ -17,8 +17,6 @@ public class PlayerControler : MonoBehaviour
     public bool IsFlipped => _Flipped;
     // Déclaration des constantes
     private static readonly Vector3 FlipRotation = new Vector3(0, 180, 0);
-    private static readonly Vector3 CameraPosition = new Vector3(10, 1, 0);
-    private static readonly Vector3 InverseCameraPosition = new Vector3(-10, 1, 0);
 
     // Déclaration des variables
     bool _Grounded { get; set; }
@@ -28,6 +26,7 @@ public class PlayerControler : MonoBehaviour
     Camera _MainCamera { get; set; }
     float horizontalInput;
     float externalHorizontalVelocity;
+    float horizontalInputOverrideTimer;
 
     int antiMagicZoneCount = 0;
 
@@ -55,7 +54,7 @@ public class PlayerControler : MonoBehaviour
     float HorizontalMomentumDamping = 4f;
 
     [SerializeField]
-    float JumpForce = 10f;
+    float JumpForce = 4f;
 
     [SerializeField]
     LayerMask WhatIsGround;
@@ -106,9 +105,20 @@ public class PlayerControler : MonoBehaviour
             HorizontalMomentumDamping * Time.fixedDeltaTime
         );
 
+        if (horizontalInputOverrideTimer > 0f)
+            horizontalInputOverrideTimer -= Time.fixedDeltaTime;
+
         Vector3 velocity = _Rb.linearVelocity;
-        velocity.z = horizontalInput + externalHorizontalVelocity;
+        velocity.z = (horizontalInputOverrideTimer > 0f ? 0f : horizontalInput) +
+            externalHorizontalVelocity;
         _Rb.linearVelocity = velocity;
+    }
+
+    public void ApplySlimeJumpImpulse(float horizontalImpulse, float inputOverrideDuration)
+    {
+        externalHorizontalVelocity += horizontalImpulse;
+        horizontalInputOverrideTimer = Mathf.Max(
+            horizontalInputOverrideTimer, inputOverrideDuration);
     }
 
     public void ApplyVelocityChange(Vector3 velocityChange)
@@ -213,6 +223,10 @@ public class PlayerControler : MonoBehaviour
             if (Input.GetButtonDown("Jump"))
             {
                 _Rb.AddForce(new Vector3(0, JumpForce, 0), ForceMode.Impulse);
+                ConjureSlime slimeSpell = GetComponent<ConjureSlime>();
+                if (slimeSpell != null)
+                    slimeSpell.ApplyWallJump();
+
                 _Grounded = false;
                 _Anim.SetBool("Grounded", false);
                 _Anim.SetBool("Jump", true);
