@@ -13,6 +13,7 @@ public class FireballProjectile : MonoBehaviour
 
     private Vector3 direction;
     private bool launched;
+    private Rigidbody body;
 
     public void Launch(Vector3 launchDirection)
     {
@@ -26,6 +27,20 @@ public class FireballProjectile : MonoBehaviour
         }
 
         direction.Normalize();
+        gameObject.tag = "Projectile";
+        body = GetComponent<Rigidbody>();
+        if (body == null)
+            body = gameObject.AddComponent<Rigidbody>();
+
+        body.isKinematic = true;
+        body.useGravity = false;
+        body.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+
+        SphereCollider projectileCollider = GetComponent<SphereCollider>();
+        if (projectileCollider == null)
+            projectileCollider = gameObject.AddComponent<SphereCollider>();
+        projectileCollider.isTrigger = true;
+        projectileCollider.radius = 0.5f;
 
         if (visual == null)
             visual = transform;
@@ -45,11 +60,11 @@ public class FireballProjectile : MonoBehaviour
         Destroy(gameObject, lifetime);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (!launched)
             return;
 
-        transform.position += direction * speed * Time.deltaTime;
+        body.MovePosition(body.position + direction * speed * Time.fixedDeltaTime);
     }
 }

@@ -1,11 +1,14 @@
 
 using UnityEngine;
+using System.Collections.Generic;
 
 public class StoneFistDetection : MonoBehaviour
 {
     public StoneFistTrapController trapController;
 
-    private readonly Collider[] overlappingColliders = new Collider[16];
+    private readonly Collider[] overlappingColliders = new Collider[32];
+    private readonly HashSet<Transform> detectedProjectiles = new HashSet<Transform>();
+    private readonly HashSet<Transform> overlappingProjectiles = new HashSet<Transform>();
     private Collider detectionZone;
     private PlayerControler detectedPlayer;
 
@@ -32,11 +35,20 @@ public class StoneFistDetection : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         DetectPlayer(other);
+        DetectProjectile(other);
     }
 
     private void OnTriggerStay(Collider other)
     {
         DetectPlayer(other);
+        DetectProjectile(other);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        Transform projectile = FindProjectile(other.transform);
+        if (projectile != null)
+            detectedProjectiles.Remove(projectile);
     }
 
     private void FixedUpdate()
@@ -51,21 +63,31 @@ public class StoneFistDetection : MonoBehaviour
             QueryTriggerInteraction.Collide);
 
         bool playerInside = false;
+        overlappingProjectiles.Clear();
         for (int i = 0; i < colliderCount; i++)
         {
-            PlayerControler player =
-                overlappingColliders[i].GetComponentInParent<PlayerControler>();
+            Collider overlappingCollider = overlappingColliders[i];
+            PlayerControler player = overlappingCollider.GetComponentInParent<PlayerControler>();
 
-            if (player == null)
-                continue;
+            if (player != null)
+            {
+                playerInside = true;
+                DetectPlayer(player);
+            }
 
-            playerInside = true;
-            DetectPlayer(player);
-            break;
+            Transform projectile = FindProjectile(overlappingCollider.transform);
+            if (projectile != null)
+            {
+                overlappingProjectiles.Add(projectile);
+                DetectProjectile(projectile);
+            }
         }
 
         if (!playerInside)
             detectedPlayer = null;
+
+        detectedProjectiles.RemoveWhere(
+            projectile => projectile == null || !overlappingProjectiles.Contains(projectile));
     }
 
     private void DetectPlayer(Collider other)
@@ -84,6 +106,33 @@ public class StoneFistDetection : MonoBehaviour
 
         if (trapController != null)
             trapController.TriggerAttack(player.transform);
+    }
+
+    private void DetectProjectile(Collider other)
+    {
+        Transform projectile = FindProjectile(other.transform);
+        DetectProjectile(projectile);
+    }
+
+    private void DetectProjectile(Transform projectile)
+    {
+        if (projectile == null || !detectedProjectiles.Add(projectile))
+            return;
+
+        Debug.Log("PROJECTILE DETECTED! Activating stone fist");
+        if (trapController != null)
+            trapController.TriggerAttack(projectile);
+    }
+
+    private Transform FindProjectile(Transform candidate)
+    {
+        for (Transform current = candidate; current != null; current = current.parent)
+        {
+            if (current.CompareTag("Projectile"))
+                return current;
+        }
+
+        return null;
     }
 
     private void HandlePlayerRespawned(PlayerControler player)

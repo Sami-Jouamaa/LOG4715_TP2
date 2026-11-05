@@ -11,7 +11,7 @@ public class FireballSpell : MonoBehaviour, ISpell
     [SerializeField] private Sprite SpellIcon;
 
     [Header("Spell Settings")]
-    [SerializeField] private int manaCost = 1;
+    [SerializeField] private int manaCost = 2;
     [SerializeField] private float spawnOffset = 0.8f;
     [SerializeField] private KeyCode castKey = KeyCode.F;
 
