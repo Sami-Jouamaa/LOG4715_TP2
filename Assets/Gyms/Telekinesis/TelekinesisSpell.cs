@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TelekinesisSpell : MonoBehaviour
+public class TelekinesisSpell : MonoBehaviour, ISpell
 {
     [Header("References")]
     [SerializeField] private PlayerControler player;
@@ -14,6 +14,7 @@ public class TelekinesisSpell : MonoBehaviour
     [SerializeField] private float manaDrainInterval = 1f;
     [SerializeField] private float hoverDuration = 6f;
     [SerializeField] private float raycastDistance = 100f;
+    [SerializeField] private Sprite spellIcon;
 
     private Rigidbody controlledBody;
     private Collider[] controlledColliders;
@@ -24,6 +25,11 @@ public class TelekinesisSpell : MonoBehaviour
     private bool isHovering;
     private float dropTime;
     private float nextManaDrainTime;
+
+    public Sprite Icon => spellIcon;
+    public int ManaCostValue => manaCost;
+    public KeyCode Key => activationKey;
+    public float CooldownProgress => 0f;
 
     private void Awake()
     {

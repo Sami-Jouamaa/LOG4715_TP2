@@ -6,11 +6,11 @@ using UnityEngine;
 /// À placer sur le joueur, à côté de PlayerControler.
 /// </summary>
 [RequireComponent(typeof(Rigidbody))]
-public class CloudBurst : MonoBehaviour
+public class CloudBurst : MonoBehaviour, ISpell
 {
     [Header("Références")]
     [SerializeField] private PlayerControler player;
-
+    [SerializeField] private Sprite spellIcon;
     [Header("Coût et entrée")]
     [Tooltip("Mana consommé par dash.")]
     [SerializeField] private int manaCost = 1;
@@ -39,12 +39,16 @@ public class CloudBurst : MonoBehaviour
     public bool IsDashing { get; private set; }
     public float CooldownRemaining => Mathf.Max(0f, cooldownEnd - Time.time);
 
-
     private Rigidbody rb;
     private float dashEnd;
     private float cooldownEnd;
     private float dir = 1f;
     private bool previousGravity;
+
+    public Sprite Icon => spellIcon;
+    public int ManaCostValue => manaCost;
+    public KeyCode Key => dashKey;
+    public float CooldownProgress => cooldown > 0f ? Mathf.Clamp01((cooldownEnd - Time.time) / cooldown) : 0f;
 
     private void Awake()
     {

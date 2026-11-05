@@ -1,13 +1,14 @@
 
 using UnityEngine;
 
-public class FireballSpell : MonoBehaviour
+public class FireballSpell : MonoBehaviour, ISpell
 {
     [Header("References")]
     [SerializeField] private PlayerControler player;
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private Camera aimCamera;
+    [SerializeField] private Sprite SpellIcon;
 
     [Header("Spell Settings")]
     [SerializeField] private int manaCost = 1;
@@ -19,6 +20,11 @@ public class FireballSpell : MonoBehaviour
     [SerializeField] private float maxVerticalSpeed = 8f;
 
     private Rigidbody playerRb;
+
+    public Sprite Icon => SpellIcon;
+    public int ManaCostValue => manaCost;
+    public KeyCode Key => castKey;
+    public float CooldownProgress => 0f;
 
     private void Awake()
     {
@@ -50,7 +56,7 @@ public class FireballSpell : MonoBehaviour
             );
             return;
         }
-        
+
         if (playerRb == null)
             playerRb = player.GetComponent<Rigidbody>();
 

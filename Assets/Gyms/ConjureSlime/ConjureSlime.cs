@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class ConjureSlime : MonoBehaviour
+public class ConjureSlime : MonoBehaviour, ISpell
 {
     [Header("Références")]
     [SerializeField] private PlayerControler player;
@@ -16,6 +16,7 @@ public class ConjureSlime : MonoBehaviour
     [SerializeField] private string horizontalAxis = "Horizontal";
     [SerializeField] private string verticalAxis = "Vertical";
     [SerializeField] private float cooldown = 0.3f;
+    [SerializeField] private Sprite spellIcon;
 
     [Header("Placement")]
     [SerializeField] private Vector3 moveAxis = Vector3.forward;
@@ -54,6 +55,12 @@ public class ConjureSlime : MonoBehaviour
     private Material previewMat;
     private static Mesh sphereMesh;
 
+    // ISpell stuff
+    public Sprite Icon => spellIcon;
+    public int ManaCostValue => manaCost;
+    public KeyCode Key => activateKey;
+    public float CooldownProgress => cooldown > 0f ? Mathf.Clamp01((cooldownEnd - Time.time) / cooldown) : 0f;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -73,7 +80,7 @@ public class ConjureSlime : MonoBehaviour
         if (IsAiming) canPlace = TryGetPlacement(out point, out normal);
         UpdatePreview(canPlace, point, normal);
 
-        if (IsAiming &&Input.GetKeyDown(conjureKey) && canPlace)
+        if (IsAiming && Input.GetKeyDown(conjureKey) && canPlace)
         {
             if (Conjure(point, normal) && exitAfterPlace) IsAiming = false;
 
@@ -134,17 +141,17 @@ public class ConjureSlime : MonoBehaviour
         return false;
     }
 
-       private bool Conjure(Vector3 point, Vector3 normal)
+    private bool Conjure(Vector3 point, Vector3 normal)
     {
         if (Time.time < cooldownEnd) return false;
         if (!player.TrySpendMana(manaCost)) return false; // pas assez de mana : refusé
- 
+
         //player.Current_Mana -= manaCost;
         cooldownEnd = Time.time + cooldown;
- 
+
         Vector3 pos = point + normal * (slimeThickness * 0.5f - 0.01f);
         Quaternion rot = Quaternion.FromToRotation(Vector3.up, normal);
- 
+
         GameObject go;
         if (slimePrefab != null)
         {
@@ -159,11 +166,11 @@ public class ConjureSlime : MonoBehaviour
             box.size = new Vector3(slimeSize, slimeThickness, slimeSize);
             BuildVisual(go.transform, slimeColor);
         }
- 
+
         var patch = go.GetComponent<SlimePatch>();
         if (patch == null) patch = go.AddComponent<SlimePatch>();
         patch.Init(this, player, normal.y < 0.5f, slimeColor, lifetime);
- 
+
         active.RemoveAll(s => s == null);
         active.Add(patch);
         while (active.Count > maxActiveSlimes)
@@ -187,7 +194,7 @@ public class ConjureSlime : MonoBehaviour
             player.SetGrounded(false);
     }
 
-// Régénération de mana sur un SLime 
+    // Régénération de mana sur un SLime 
     private void RegenWhileTouching()
     {
         touching.RemoveWhere(s => s == null);
