@@ -82,6 +82,7 @@ public class PlayerControler : MonoBehaviour
         var horizontal = Input.GetAxis("Horizontal") * MoveSpeed;
         horizontalInput = horizontal;
         _Anim.SetFloat("MoveSpeed", Mathf.Abs(horizontal));
+        _Anim.SetFloat("VelocityY", _Rb.linearVelocity.y);   // utilisé par MaleFreeController pour le saut
         FlipCharacter(horizontal);
         CheckJump();
         CheckHP();
@@ -138,6 +139,9 @@ public class PlayerControler : MonoBehaviour
             return false;
 
         Current_Mana -= amount;
+
+        // Animation de lancer de sort
+        _Anim.SetTrigger("Cast");
         return true;
     }
     void CheckStep()

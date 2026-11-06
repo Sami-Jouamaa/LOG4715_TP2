@@ -164,6 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3105ba9e0e5f92c418138c60dc647197, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerControler
+  respawnPosition: {x: 0, y: 1, z: 1}
   Max_Mana: 1
   Current_Mana: 1
   StepHeight: 0.75
@@ -717,6 +718,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AntiMagicZone
   zoneColor: {r: 0.8, g: 0.8, b: 0.8, a: 0.35}
   showVisual: 1
+  pulseSpeed: 1.5
+  pulseAmount: 0.2
+  showParticles: 1
+  particleColor: {r: 1, g: 1, b: 1, a: 0.6}
 --- !u!1 &1186131330
 GameObject:
   m_ObjectHideFlags: 0
@@ -749,6 +754,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AntiMagicZone
   zoneColor: {r: 0.8, g: 0.8, b: 0.8, a: 0.35}
   showVisual: 1
+  pulseSpeed: 1.5
+  pulseAmount: 0.2
+  showParticles: 1
+  particleColor: {r: 1, g: 1, b: 1, a: 0.6}
 --- !u!135 &1186131332
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1009,7 +1018,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: f297797635a2b7445ad2ea55cec7353b, type: 2}
+      objectReference: {fileID: 9100000, guid: 30515048718944a4fadf8fbcd2432dde, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1057,6 +1066,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3105ba9e0e5f92c418138c60dc647197, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  respawnPosition: {x: 0, y: 1, z: 1}
   Max_Mana: 5
   Current_Mana: 1
   StepHeight: 0.75
@@ -1201,6 +1211,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AntiMagicZone
   zoneColor: {r: 0.8, g: 0.8, b: 0.8, a: 0.35}
   showVisual: 1
+  pulseSpeed: 1.5
+  pulseAmount: 0.2
+  showParticles: 1
+  particleColor: {r: 1, g: 1, b: 1, a: 0.6}
 --- !u!135 &1898035676
 SphereCollider:
   m_ObjectHideFlags: 0
