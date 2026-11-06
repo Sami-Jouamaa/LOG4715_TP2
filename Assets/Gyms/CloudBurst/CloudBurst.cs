@@ -1,3 +1,4 @@
+using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 
 /// <summary>
@@ -7,11 +8,11 @@ using UnityEngine;
 /// La souris n'a AUCUNE influence : la direction vient uniquement des touches du clavier.
 /// </summary>
 [RequireComponent(typeof(Rigidbody))]
-public class CloudBurst : MonoBehaviour
+public class CloudBurst : MonoBehaviour, ISpell
 {
     [Header("Références")]
     [SerializeField] private PlayerControler player;
-
+    [SerializeField] private Sprite SpellIcon;
     [Header("Coût et entrée")]
     [Tooltip("Mana consommé par dash.")]
     [SerializeField] private int manaCost = 1;
@@ -48,6 +49,11 @@ public class CloudBurst : MonoBehaviour
     private float cooldownEnd;
     private float dir = 1f;
     private bool previousGravity;
+
+    public Sprite Icon => SpellIcon;
+    public int ManaCostValue => manaCost;
+    public KeyCode Key => dashKey;
+    public float CooldownProgress => cooldown > 0f ? Mathf.Clamp01((cooldownEnd - Time.time) / cooldown) : 0f;
 
     private void Awake()
     {
