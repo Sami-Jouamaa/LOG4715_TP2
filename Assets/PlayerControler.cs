@@ -39,7 +39,6 @@ public class PlayerControler : MonoBehaviour
     // À chaque 1.5 seconde, 1 mana est récupéré, seulement au sol
     float Mana_Regen_Delay = 1.5f;
     Coroutine manaRegenCoroutine;
-    float ParryWindowAbsorbMagic = 0.5f;
 
 
     // Pour des escaliers et petits obstacles
@@ -277,10 +276,10 @@ public class PlayerControler : MonoBehaviour
     // Collision avec le sol
     void OnCollisionEnter(Collision coll)
     {
+        Debug.Log($"Collision with: {coll.gameObject.name}, Layer: {coll.gameObject.layer}");
         if (coll.gameObject.layer == 6)
         {
             AbsorbMagic parry = GetComponent<AbsorbMagic>();
-
             if (parry == null || !parry.TryParry())
                 HP--;
 
