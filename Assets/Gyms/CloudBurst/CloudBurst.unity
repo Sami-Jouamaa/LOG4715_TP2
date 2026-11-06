@@ -997,7 +997,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1968476592218994, guid: 313ad0ef31f75b84f9f31c0528802fdd,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1835754027}
+      addedObject: {fileID: 1835754029}
     - targetCorrespondingSourceObject: {fileID: 1258019779867072, guid: 313ad0ef31f75b84f9f31c0528802fdd,
         type: 3}
       insertIndex: -1
@@ -1109,7 +1109,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &1835754027
+--- !u!114 &1835754029
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1121,12 +1121,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e70d910450adab4fbd976deed08b039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CloudBurst
-  player: {fileID: 1835754022}
-  spellIcon: {fileID: 21300000, guid: eced15bb959edc54c8457ab75f9a45b5, type: 3}
+  player: {fileID: 0}
   manaCost: 1
   dashKey: 304
-  horizontalAxis: Horizontal
-  moveAxis: {x: 0, y: 1, z: 1}
+  leftKey: 97
+  rightKey: 100
+  moveAxis: {x: 0, y: 0, z: 1}
   dashDistance: 5.7
   dashDuration: 0.2
   cooldown: 0.25
