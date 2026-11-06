@@ -4,18 +4,22 @@ using UnityEngine;
 /// Sort Cloudburst : dash horizontal uniquement (axe Z), coûte du mana,
 /// distance équivalente à celle d'un saut normal.
 /// À placer sur le joueur, à côté de PlayerControler.
+/// La souris n'a AUCUNE influence : la direction vient uniquement des touches du clavier.
 /// </summary>
 [RequireComponent(typeof(Rigidbody))]
-public class CloudBurst : MonoBehaviour, ISpell
+public class CloudBurst : MonoBehaviour
 {
     [Header("Références")]
     [SerializeField] private PlayerControler player;
-    [SerializeField] private Sprite spellIcon;
+
     [Header("Coût et entrée")]
     [Tooltip("Mana consommé par dash.")]
     [SerializeField] private int manaCost = 1;
+    [Tooltip("Touche du dash (une touche de souris sera refusée).")]
     [SerializeField] private KeyCode dashKey = KeyCode.LeftShift;
-    [SerializeField] private string horizontalAxis = "Horizontal";
+    [Tooltip("Touches qui définissent la direction du dash (clavier seulement).")]
+    [SerializeField] private KeyCode leftKey = KeyCode.A;
+    [SerializeField] private KeyCode rightKey = KeyCode.D;
 
     [Header("Dash")]
     [Tooltip("Axe monde du déplacement horizontal (le joueur se déplace sur Z).")]
@@ -45,15 +49,17 @@ public class CloudBurst : MonoBehaviour, ISpell
     private float dir = 1f;
     private bool previousGravity;
 
-    public Sprite Icon => spellIcon;
-    public int ManaCostValue => manaCost;
-    public KeyCode Key => dashKey;
-    public float CooldownProgress => cooldown > 0f ? Mathf.Clamp01((cooldownEnd - Time.time) / cooldown) : 0f;
-
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         if (player == null) player = GetComponent<PlayerControler>();
+
+        // Sécurité : la touche de dash ne peut pas être un bouton de souris.
+        if (IsMouseKey(dashKey))
+        {
+            Debug.LogWarning("CloudBurst : dashKey était un bouton de souris, remis à LeftShift.");
+            dashKey = KeyCode.LeftShift;
+        }
 
         if (trail == null)
         {
@@ -70,9 +76,15 @@ public class CloudBurst : MonoBehaviour, ISpell
 
     private void Update()
     {
-        // Retient la dernière direction demandée (même logique que le flip du joueur).
-        float h = Input.GetAxisRaw(horizontalAxis);
-        if (Mathf.Abs(h) > 0.1f && !IsDashing) dir = Mathf.Sign(h);
+        // Direction lue directement sur les touches : on contourne l'Input Manager,
+        // donc un axe "Horizontal" mal configuré (Mouse Movement) n'a aucun effet ici.
+        if (!IsDashing)
+        {
+            float h = 0f;
+            if (Input.GetKey(rightKey) || Input.GetKey(KeyCode.RightArrow)) h += 1f;
+            if (Input.GetKey(leftKey) || Input.GetKey(KeyCode.LeftArrow)) h -= 1f;
+            if (h != 0f) dir = h;
+        }
 
         if (Input.GetKeyDown(dashKey)) TryDash();
     }
@@ -111,6 +123,11 @@ public class CloudBurst : MonoBehaviour, ISpell
         rb.linearVelocity = Vector3.zero;
         player.enabled = true;
         trail.emitting = false;
+    }
+
+    private static bool IsMouseKey(KeyCode key)
+    {
+        return key >= KeyCode.Mouse0 && key <= KeyCode.Mouse6;
     }
 
     /// <summary>
