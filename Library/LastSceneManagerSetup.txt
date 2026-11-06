@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Gyms/PiegeProjectiles/PiegeProjectiles.unity
+- path: Assets/Gyms/StoneFist/StoneFist.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
