@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerControler : MonoBehaviour
 {
     public static event System.Action<PlayerControler> Respawned;
+    public Vector3 respawnPosition = new Vector3(0f, 0f, 0f);
 
     public float MoveSpeedValue => MoveSpeed;
     public float JumpForceValue => JumpForce;
@@ -201,7 +202,7 @@ public class PlayerControler : MonoBehaviour
         Current_Mana = Max_Mana;
         HP = 1;
         // On retourne le joueur au début du niveau ou au dernier checkpoint
-        _Rb.position = new Vector3(0f, 1f, 1f);
+        _Rb.position = respawnPosition;
         _Rb.linearVelocity = Vector3.zero;
         _Rb.angularVelocity = Vector3.zero;
         Respawned?.Invoke(this);
