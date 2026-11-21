@@ -16,8 +16,8 @@ public class FireballSpell : MonoBehaviour, ISpell
     [SerializeField] private KeyCode castKey = KeyCode.F;
 
     [Header("Fireball Recoil")]
-    [SerializeField] private float recoilForce = 7f;
-    [SerializeField] private float maxVerticalSpeed = 8f;
+    [SerializeField] private float recoilForce = 8f;
+    [SerializeField] private float maxVerticalSpeed = 10f;
 
     private Rigidbody playerRb;
 

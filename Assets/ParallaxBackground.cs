@@ -52,7 +52,6 @@ public class ParallaxBackground : MonoBehaviour
 
         float backgroundZ = startBackgroundPosition.z + movement.z * parallaxFactor;
 
-        // Recycle the tile group as the camera moves.
         backgroundZ += Mathf.Round(
             (targetCamera.transform.position.z - backgroundZ) / tileWidth
         ) * tileWidth;
@@ -80,7 +79,7 @@ public class ParallaxBackground : MonoBehaviour
         float spriteWidth = sr.sprite.bounds.size.x;
         float spriteHeight = sr.sprite.bounds.size.y;
 
-        float scale = Mathf.Max(width / spriteWidth, height / spriteHeight);
+        float scale = 1.5f * Mathf.Max(width / spriteWidth, height / spriteHeight);
 
         transform.localScale = new Vector3(scale, scale, 1f);
     }

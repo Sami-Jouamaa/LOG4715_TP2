@@ -18,6 +18,7 @@ public class Respawn : MonoBehaviour
         player = other.GetComponent<PlayerControler>();
         if (player == null || isActive) return;
         isActive = true;
+        player.respawnPosition.y = _rb.transform.position.y;
         player.respawnPosition.z = _rb.transform.position.z;
         player.Max_Mana += 1;
         fireVFX.SetActive(true);
