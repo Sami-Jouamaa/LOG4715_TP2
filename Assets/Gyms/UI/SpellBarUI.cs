@@ -9,16 +9,9 @@ public class SpellBarUI : MonoBehaviour
     {
         ISpell[] spells = player.GetComponents<MonoBehaviour>().OfType<ISpell>().ToArray();
         SpellSlotUI[] slots = GetComponentsInChildren<SpellSlotUI>();
-
         for (int i = 0; i < Mathf.Min(spells.Length, slots.Length); i++)
         {
             slots[i].Initialize(spells[i], player);
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }

@@ -79,6 +79,8 @@
     <Compile Include="Assets\Puxxe_Studio\3D_Low_Characters_V2\Scripts\CharactersSwipeMenu.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexJitter.cs" />
     <Compile Include="Assets\Gyms\StoneFist\StoneFistTrapController.cs" />
+    <Compile Include="Assets\Realistic Tree\Demo Scene\Rotate.cs" />
+    <Compile Include="Assets\ParallaxBackground.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_DigitValidator.cs" />
     <Compile Include="Assets\Supercyan Character Pack Free Sample\Scripts\CameraLogic.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_FrameRateCounter.cs" />
@@ -95,6 +97,7 @@
     <Compile Include="Assets\Gyms\ConjureSlime\ConjureSlime.cs" />
     <Compile Include="Assets\Gyms\CloudBurst\CloudBurst.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
+    <Compile Include="Assets\GroundTextures\RandomGroundMaterial.cs" />
     <Compile Include="Assets\Gyms\StoneFist\StoneFistKill.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
     <Compile Include="Assets\ManaController.cs" />
@@ -106,6 +109,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ShaderPropAnimator.cs" />
     <Compile Include="Assets\Puxxe_Studio\3D_Low_Characters_V2\Scripts\ShowButtonsActionsAutoScroll.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark03.cs" />
+    <Compile Include="Assets\Realistic Tree\Demo Scene\Buttonscript.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextInfoDebugTool.cs" />
     <Compile Include="Assets\Gyms\Fireball\FireballProjectile.cs" />
     <Compile Include="Assets\PlayerControler.cs" />
