@@ -35,9 +35,8 @@ public class PlayerControler : MonoBehaviour
     int HP = 1;
     [SerializeField] public int Max_Mana = 1;
     [SerializeField] public int Current_Mana = 1;
-    int Mana_Growth = 1;
     // À chaque 1.5 seconde, 1 mana est récupéré, seulement au sol
-    float Mana_Regen_Delay = 1.5f;
+    [SerializeField] public float Mana_Regen_Delay = 1.5f;
     Coroutine manaRegenCoroutine;
 
 
@@ -115,9 +114,14 @@ public class PlayerControler : MonoBehaviour
         _Rb.linearVelocity = velocity;
     }
 
-    public void ApplySlimeJumpImpulse(float horizontalImpulse, float inputOverrideDuration)
+    public void ApplySlimeJumpImpulse(float horizontalImpulse, float verticalImpulse, float inputOverrideDuration)
     {
         externalHorizontalVelocity += horizontalImpulse;
+
+        Vector3 velocity = _Rb.linearVelocity;
+        velocity.y = Mathf.Max(velocity.y, verticalImpulse);
+        _Rb.linearVelocity = velocity;
+
         horizontalInputOverrideTimer = Mathf.Max(
             horizontalInputOverrideTimer, inputOverrideDuration);
     }

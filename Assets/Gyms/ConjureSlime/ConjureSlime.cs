@@ -21,7 +21,7 @@ public class ConjureSlime : MonoBehaviour, ISpell
     [Header("Placement")]
     [SerializeField] private Vector3 moveAxis = Vector3.forward;
     [SerializeField] private float placeRange = 2.5f;
-    [SerializeField] private float aimHeight = 0.8f;
+    [SerializeField] private float aimHeight = 1f;
     [SerializeField] private float floorLookAhead = 1.2f;
     [SerializeField] private LayerMask placeableSurfaces = ~0;
 
@@ -36,8 +36,9 @@ public class ConjureSlime : MonoBehaviour, ISpell
     [Header("Contact avec le slime")]
     [SerializeField] private bool stickyWalls = true;
     [SerializeField] private float wallSlideSpeed = 1.5f;
-    [SerializeField] private float wallJumpForce = 2f;
-    [SerializeField] private float regenDelay = 1.5f;
+    [SerializeField] private float wallJumpForce = 4f;
+    [SerializeField] private float wallJumpUpForce = 4f;
+    [SerializeField] private float regenDelay;
 
     [Header("Rétroaction visuelle")]
     [SerializeField] private bool showPreview = true;
@@ -67,6 +68,7 @@ public class ConjureSlime : MonoBehaviour, ISpell
         rb = GetComponent<Rigidbody>();
         if (player == null) player = GetComponent<PlayerControler>();
         if (showPreview) BuildPreview();
+        regenDelay = player.Mana_Regen_Delay;
     }
 
     private void Update()
@@ -205,7 +207,7 @@ public class ConjureSlime : MonoBehaviour, ISpell
             float direction = Mathf.Abs(patch.WallNormal.z) > 0.1f
                 ? Mathf.Sign(patch.WallNormal.z)
                 : -dir;
-            player.ApplySlimeJumpImpulse(direction * wallJumpForce, 0.2f);
+            player.ApplySlimeJumpImpulse(direction * wallJumpForce, wallJumpUpForce, 0.25f);
             return;
         }
     }

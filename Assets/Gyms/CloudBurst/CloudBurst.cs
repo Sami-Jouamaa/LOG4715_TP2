@@ -28,7 +28,7 @@ public class CloudBurst : MonoBehaviour, ISpell
     [Tooltip("Distance parcourue (m). Clic droit sur le composant > 'Aligner la distance sur un saut normal'.")]
     [SerializeField] private float dashDistance = 5.7f;
     [Tooltip("Durée du dash (s). Vitesse = distance / durée.")]
-    [SerializeField] private float dashDuration = 0.2f;
+    [SerializeField] private float dashDuration = 0.35f;
     [Tooltip("Délai minimal entre deux dashs (s).")]
     [SerializeField] private float cooldown = 0.25f;
     [Tooltip("Coupe la gravité pendant le dash pour qu'il reste strictement horizontal.")]
