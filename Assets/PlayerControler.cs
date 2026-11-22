@@ -280,7 +280,6 @@ public class PlayerControler : MonoBehaviour
     // Collision avec le sol
     void OnCollisionEnter(Collision coll)
     {
-        Debug.Log($"Collision with: {coll.gameObject.name}, Layer: {coll.gameObject.layer}");
         if (coll.gameObject.layer == 6)
         {
             AbsorbMagic parry = GetComponent<AbsorbMagic>();

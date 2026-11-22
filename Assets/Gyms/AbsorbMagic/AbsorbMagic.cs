@@ -56,6 +56,7 @@ public class AbsorbMagic : MonoBehaviour, ISpell
     public bool TryParry()
     {
         if (!IsAbsorbing) return false;
+        Debug.Log("Parry sucessful");
         player.RefundMana(ParryManaRefund);
         EndParry();
         return true;
