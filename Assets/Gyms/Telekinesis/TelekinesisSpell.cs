@@ -31,8 +31,11 @@ public class TelekinesisSpell : MonoBehaviour, ISpell
     public KeyCode Key => activationKey;
     public float CooldownProgress => 0f;
 
+    private AudioManager audioManager;
+
     private void Awake()
     {
+        audioManager = FindFirstObjectByType<AudioManager>();
         if (player == null)
             player = GetComponentInParent<PlayerControler>();
 
@@ -126,6 +129,8 @@ public class TelekinesisSpell : MonoBehaviour, ISpell
             body = interactable.GetComponentInParent<Rigidbody>();
         if (body == null)
             body = interactable.gameObject.AddComponent<Rigidbody>();
+
+        audioManager.Play("Telekinesis");
 
         controlledBody = body;
         controlledBody.useGravity = false;

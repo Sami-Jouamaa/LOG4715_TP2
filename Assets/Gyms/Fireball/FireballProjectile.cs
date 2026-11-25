@@ -15,6 +15,8 @@ public class FireballProjectile : MonoBehaviour
     private bool launched;
     private Rigidbody body;
 
+
+
     public void Launch(Vector3 launchDirection)
     {
         direction = launchDirection.normalized;
@@ -57,6 +59,8 @@ public class FireballProjectile : MonoBehaviour
         );
 
         launched = true;
+
+        FindObjectOfType<AudioManager>().Play("Fireball");
         Destroy(gameObject, lifetime);
     }
 

@@ -30,6 +30,9 @@ public class PlayerControler : MonoBehaviour
     float horizontalInputOverrideTimer;
 
     int antiMagicZoneCount = 0;
+    private AudioManager audioManager;
+
+    
 
     // Variables pour mécaniques
     int HP = 1;
@@ -58,6 +61,9 @@ public class PlayerControler : MonoBehaviour
     [SerializeField]
     LayerMask WhatIsGround;
 
+    [SerializeField] float FallDeathHeight = -5f;   // below this Y, the player dies by falling
+    string deathSound = "Death";
+
     // Awake se produit avait le Start. Il peut être bien de régler les références dans cette section.
     void Awake()
     {
@@ -65,6 +71,8 @@ public class PlayerControler : MonoBehaviour
         _Rb = GetComponent<Rigidbody>();
         _MainCamera = Camera.main;
         Current_Mana = Max_Mana;
+        audioManager = FindFirstObjectByType<AudioManager>();
+
     }
 
     // Utile pour régler des valeurs aux objets
@@ -83,6 +91,7 @@ public class PlayerControler : MonoBehaviour
         _Anim.SetFloat("VelocityY", _Rb.linearVelocity.y);   // utilisé par MaleFreeController pour le saut
         FlipCharacter(horizontal);
         CheckJump();
+        CheckFall();
         CheckHP();
         CheckStep();
 
@@ -192,11 +201,24 @@ public class PlayerControler : MonoBehaviour
     public void TakeDamage(int damage)
     {
         HP -= damage;
+
     }
+
+    void CheckFall()
+    {
+        if (transform.position.y < FallDeathHeight)
+        {
+            //deathSound = "FallDeath";
+            audioManager.Play("FallDeath");
+        }
+    }
+
     void CheckHP()
     {
         if (HP <= 0)
         {
+            audioManager.Play(deathSound);
+            deathSound = "Death"; 
             Respawn();
         }
     }
@@ -236,6 +258,8 @@ public class PlayerControler : MonoBehaviour
                 _Grounded = false;
                 _Anim.SetBool("Grounded", false);
                 _Anim.SetBool("Jump", true);
+                audioManager.Play("Jump");
+
             }
         }
     }
@@ -243,11 +267,18 @@ public class PlayerControler : MonoBehaviour
     public void EnterAntiMagicZone()
     {
         antiMagicZoneCount++;
+        if (antiMagicZoneCount == 1)          // only on the first zone entered
+            audioManager.Play("goofy");
     }
 
     public void ExitAntiMagicZone()
     {
         antiMagicZoneCount--;
+        if (antiMagicZoneCount <= 0)          // only when no zone is left
+        {
+            antiMagicZoneCount = 0;
+            audioManager.Stop("goofy");
+        }
     }
 
     public void SetGrounded(bool grounded)

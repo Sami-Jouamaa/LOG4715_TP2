@@ -63,12 +63,14 @@ public class ConjureSlime : MonoBehaviour, ISpell
     public KeyCode Key => activateKey;
     public float CooldownProgress => cooldown > 0f ? Mathf.Clamp01((cooldownEnd - Time.time) / cooldown) : 0f;
 
+    private AudioManager audioManager;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         if (player == null) player = GetComponent<PlayerControler>();
         if (showPreview) BuildPreview();
         regenDelay = player.Mana_Regen_Delay;
+        audioManager = FindFirstObjectByType<AudioManager>();
     }
 
     private void Update()
@@ -85,6 +87,8 @@ public class ConjureSlime : MonoBehaviour, ISpell
 
         if (IsAiming && Input.GetKeyDown(conjureKey) && canPlace)
         {
+            Debug.Log($"Conjuring slime at {point} with normal {normal}");
+            audioManager.Play("Slime");
             if (Conjure(point, normal) && exitAfterPlace) IsAiming = false;
 
         }

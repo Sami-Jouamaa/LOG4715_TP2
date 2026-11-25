@@ -54,11 +54,12 @@ public class CloudBurst : MonoBehaviour, ISpell
     public int ManaCostValue => manaCost;
     public KeyCode Key => dashKey;
     public float CooldownProgress => cooldown > 0f ? Mathf.Clamp01((cooldownEnd - Time.time) / cooldown) : 0f;
-
+    private AudioManager audioManager;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         if (player == null) player = GetComponent<PlayerControler>();
+        audioManager = FindFirstObjectByType<AudioManager>();
 
         // Sécurité : la touche de dash ne peut pas être un bouton de souris.
         if (IsMouseKey(dashKey))
@@ -109,7 +110,7 @@ public class CloudBurst : MonoBehaviour, ISpell
         if (!player.TrySpendMana(manaCost)) return; // pas assez de mana : refusé
         IsDashing = true;
         dashEnd = Time.time + dashDuration;
-
+        audioManager.Play("CloudBurst");
         previousGravity = rb.useGravity;
         if (disableGravityDuringDash) rb.useGravity = false;
 

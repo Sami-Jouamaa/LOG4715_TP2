@@ -22,10 +22,12 @@ public class AbsorbMagic : MonoBehaviour, ISpell
     public KeyCode Key => ParryKey;
     public float CooldownProgress => Cooldown > 0f ? Mathf.Clamp01(cooldownTimer / Cooldown) : 0f;
 
+    private AudioManager audioManager;
+
     void Awake()
     {
         player = GetComponent<PlayerControler>();
-
+        audioManager = FindFirstObjectByType<AudioManager>();
         barrierVisual = Instantiate(barrierPrefab, transform);
         barrierVisual.transform.localPosition = new Vector3(0f, 0.5f, 0f);
         barrierVisual.transform.localRotation = Quaternion.identity;
@@ -58,6 +60,7 @@ public class AbsorbMagic : MonoBehaviour, ISpell
         if (!IsAbsorbing) return false;
         Debug.Log("Parry sucessful");
         player.RefundMana(ParryManaRefund);
+        audioManager.Play("Shield");
         EndParry();
         return true;
     }

@@ -59,7 +59,28 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("Sound: " + name + " not found!");
             return;
         }
-        s.source.Play();
+
+        if (s.loop)
+        {
+            // Looping sound (e.g. a sustained spell): start it once, don't restart every call
+            if (!s.source.isPlaying) s.source.Play();
+        }
+        else
+        {
+            // One-shot: overlapping casts layer instead of cutting each other off
+            s.source.PlayOneShot(s.clip);
+        }
+    }
+
+    public void Stop(string name)
+    {
+        Sound s = Array.Find(sounds, sound => sound.name == name);
+        if (s == null)
+        {
+            Debug.LogWarning("Sound: " + name + " not found!");
+            return;
+        }
+        s.source.Stop();
     }
 
     // --- Music with crossfade ---

@@ -26,6 +26,8 @@ public class FireballSpell : MonoBehaviour, ISpell
     public KeyCode Key => castKey;
     public float CooldownProgress => 0f;
 
+    private AudioManager audioManager;
+
     private void Awake()
     {
         if (player == null)
@@ -36,12 +38,16 @@ public class FireballSpell : MonoBehaviour, ISpell
 
         if (aimCamera == null)
             aimCamera = Camera.main;
+
+        audioManager = FindFirstObjectByType<AudioManager>();
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(castKey))
             Cast();
+            // FindObjectOfType<AudioManager>().Play("Fireball");
+
     }
 
     public void Cast()
