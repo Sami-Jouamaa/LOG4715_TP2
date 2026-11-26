@@ -258,7 +258,7 @@ public class PlayerControler : MonoBehaviour
                 _Grounded = false;
                 _Anim.SetBool("Grounded", false);
                 _Anim.SetBool("Jump", true);
-                audioManager.Play("Jump");
+                // audioManager.Play("Jump");
 
             }
         }
