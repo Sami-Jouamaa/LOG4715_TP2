@@ -14,6 +14,8 @@ public class Sound
     public float pitch;
 
     public bool loop;
+    public bool music;                       // joué via la source musique partagée uniquement
+
 
     [HideInInspector]
     public AudioSource source;

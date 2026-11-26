@@ -55,24 +55,54 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 24f80241c0cd6e74c9e9635d318ad228, type: 3}
     volume: 1
     pitch: 1
-    loop: 1
+    loop: 0
     source: {fileID: 0}
   - name: Slime
     clip: {fileID: 8300000, guid: 504973769fbfc1c4b8925df8b30671e4, type: 3}
     volume: 1
     pitch: 1
-    loop: 1
+    loop: 0
     source: {fileID: 0}
   - name: Fireball
     clip: {fileID: 8300000, guid: 438fc20247205b34681c3d1c30e48563, type: 3}
     volume: 1
     pitch: 1
-    loop: 1
+    loop: 0
     source: {fileID: 0}
   - name: Shield
     clip: {fileID: 8300000, guid: d1be18e0229d81a4e85a3ac569b427bd, type: 3}
     volume: 1
     pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Telekinesis
+    clip: {fileID: 8300000, guid: 3ceb49221f354af439e17e0ea66db127, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Death
+    clip: {fileID: 8300000, guid: a58b649efce98f041b5150472f665505, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Jump
+    clip: {fileID: 8300000, guid: 13f44691650bf544aacf292e62f9ebcc, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: goofy
+    clip: {fileID: 8300000, guid: ed1cc0aa832e8cd4fb341b3e7b64d819, type: 3}
+    volume: 1
+    pitch: 1
     loop: 1
+    source: {fileID: 0}
+  - name: FallDeath
+    clip: {fileID: 8300000, guid: 3dd818dccbde3b14aa2903528e8c73a0, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
     source: {fileID: 0}
   mixerGroup: {fileID: 24300002, guid: 4c12ec99553b62d4b8a3e477c0209f69, type: 2}

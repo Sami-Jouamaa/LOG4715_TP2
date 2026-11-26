@@ -1836,26 +1836,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6821408717399507559, guid: 1a40e159c4af891409b7940100064717,
-        type: 3}
-      propertyPath: sounds.Array.data[1].loop
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6821408717399507559, guid: 1a40e159c4af891409b7940100064717,
-        type: 3}
-      propertyPath: sounds.Array.data[2].loop
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6821408717399507559, guid: 1a40e159c4af891409b7940100064717,
-        type: 3}
-      propertyPath: sounds.Array.data[3].loop
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6821408717399507559, guid: 1a40e159c4af891409b7940100064717,
-        type: 3}
-      propertyPath: sounds.Array.data[4].loop
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1865,8 +1845,8 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 5640150103806286708}
   - {fileID: 1528224062}
   - {fileID: 974444955}
   - {fileID: 1462560569}
   - {fileID: 1060528502}
-  - {fileID: 5640150103806286708}

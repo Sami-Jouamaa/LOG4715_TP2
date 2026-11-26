@@ -60,7 +60,7 @@ public class AbsorbMagic : MonoBehaviour, ISpell
         if (!IsAbsorbing) return false;
         Debug.Log("Parry sucessful");
         player.RefundMana(ParryManaRefund);
-        audioManager.Play("Shield");
+        AudioManager.Instance.Play("Shield");
         EndParry();
         return true;
     }

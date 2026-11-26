@@ -88,7 +88,7 @@ public class ConjureSlime : MonoBehaviour, ISpell
         if (IsAiming && Input.GetKeyDown(conjureKey) && canPlace)
         {
             Debug.Log($"Conjuring slime at {point} with normal {normal}");
-            audioManager.Play("Slime");
+            AudioManager.Instance.Play("Slime");
             if (Conjure(point, normal) && exitAfterPlace) IsAiming = false;
 
         }

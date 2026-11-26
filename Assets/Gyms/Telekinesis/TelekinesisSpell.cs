@@ -130,7 +130,7 @@ public class TelekinesisSpell : MonoBehaviour, ISpell
         if (body == null)
             body = interactable.gameObject.AddComponent<Rigidbody>();
 
-        audioManager.Play("Telekinesis");
+        AudioManager.Instance.Play("Telekinesis");
 
         controlledBody = body;
         controlledBody.useGravity = false;

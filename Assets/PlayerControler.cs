@@ -209,7 +209,7 @@ public class PlayerControler : MonoBehaviour
         if (transform.position.y < FallDeathHeight)
         {
             //deathSound = "FallDeath";
-            audioManager.Play("FallDeath");
+            AudioManager.Instance.Play("FallDeath");
         }
     }
 
@@ -217,7 +217,7 @@ public class PlayerControler : MonoBehaviour
     {
         if (HP <= 0)
         {
-            audioManager.Play(deathSound);
+            AudioManager.Instance.Play(deathSound);
             deathSound = "Death"; 
             Respawn();
         }
@@ -258,8 +258,7 @@ public class PlayerControler : MonoBehaviour
                 _Grounded = false;
                 _Anim.SetBool("Grounded", false);
                 _Anim.SetBool("Jump", true);
-                // audioManager.Play("Jump");
-
+                AudioManager.Instance.Play("Jump");
             }
         }
     }
@@ -268,7 +267,7 @@ public class PlayerControler : MonoBehaviour
     {
         antiMagicZoneCount++;
         if (antiMagicZoneCount == 1)          // only on the first zone entered
-            audioManager.Play("goofy");
+            AudioManager.Instance.Play("goofy");
     }
 
     public void ExitAntiMagicZone()
@@ -277,7 +276,7 @@ public class PlayerControler : MonoBehaviour
         if (antiMagicZoneCount <= 0)          // only when no zone is left
         {
             antiMagicZoneCount = 0;
-            audioManager.Stop("goofy");
+            AudioManager.Instance.Stop("goofy");
         }
     }
 

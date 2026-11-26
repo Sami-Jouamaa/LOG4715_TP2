@@ -60,7 +60,8 @@ public class FireballProjectile : MonoBehaviour
 
         launched = true;
 
-        FindObjectOfType<AudioManager>().Play("Fireball");
+        //FindObjectOfType<AudioManager>().Play("Fireball");
+        AudioManager.Instance.Play("Fireball");
         Destroy(gameObject, lifetime);
     }
 

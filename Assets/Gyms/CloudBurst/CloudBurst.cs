@@ -110,7 +110,7 @@ public class CloudBurst : MonoBehaviour, ISpell
         if (!player.TrySpendMana(manaCost)) return; // pas assez de mana : refusé
         IsDashing = true;
         dashEnd = Time.time + dashDuration;
-        audioManager.Play("CloudBurst");
+        AudioManager.Instance.Play("CloudBurst");
         previousGravity = rb.useGravity;
         if (disableGravityDuringDash) rb.useGravity = false;
 
