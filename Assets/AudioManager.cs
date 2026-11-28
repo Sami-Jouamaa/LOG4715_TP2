@@ -34,7 +34,7 @@ public class AudioManager : MonoBehaviour
 
     void Start()
     {
-        if (Instance != this) return;        // doublon en cours de destruction
+        if (Instance != this) return;  // doublon en cours de destruction
         PlayMusic("Theme");
     }
 
@@ -68,6 +68,31 @@ public class AudioManager : MonoBehaviour
     {
         Sound s = Find(name);
         if (s != null && s.source != null) s.source.Stop();
+    }
+
+    public void PlayAt(string name, Vector3 position, float minDistance = 3f, float maxDistance = 20f)
+    {
+        if (Instance != this) { if (Instance != null) Instance.PlayAt(name, position, minDistance, maxDistance); return; }
+
+        Sound s = Find(name);
+        if (s == null) { Debug.LogWarning("Sound: " + name + " not found!"); return; }
+
+        GameObject go = new GameObject("SFX_" + name);
+        go.transform.position = position;
+
+        AudioSource src = go.AddComponent<AudioSource>();
+        src.clip = s.clip;
+        src.volume = s.volume;
+        src.pitch = s.pitch;
+        src.loop = false;
+        src.outputAudioMixerGroup = mixerGroup;        // keep the options slider working
+        src.spatialBlend = 1f;                         // 1 = fully 3D
+        src.rolloffMode = AudioRolloffMode.Linear;
+        src.minDistance = minDistance;
+        src.maxDistance = maxDistance;
+        src.Play();
+
+        Destroy(go, s.clip.length / Mathf.Max(0.01f, Mathf.Abs(s.pitch)) + 0.1f);
     }
 
     public void PlayMusic(string trackName, float fadeDuration = 0.5f)

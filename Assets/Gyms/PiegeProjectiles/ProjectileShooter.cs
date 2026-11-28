@@ -19,5 +19,6 @@ public class ProjectileShooter : MonoBehaviour
     {
         Quaternion rotation = Quaternion.FromToRotation(Vector3.up, shootDirection.normalized);
         Instantiate(arrowPrefab, firePoint.position, rotation);
+        AudioManager.Instance.PlayAt("Arrow", firePoint.position);
     }
 }

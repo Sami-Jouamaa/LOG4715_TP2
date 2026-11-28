@@ -32,8 +32,21 @@ public class PlayerControler : MonoBehaviour
     int antiMagicZoneCount = 0;
     private AudioManager audioManager;
 
-    
+    [Header("Mort et respawn")]
+    [Tooltip("Valeur par défaut si le joueur n'a jamais touché l'option.")]
+    [SerializeField] bool autoRespawnDefault = false;
+    //[SerializeField] float respawnDelay = 2.5f;          // 2 to 3 seconds
+    [Tooltip("Panneau 'You died' désactivé par défaut.")]
+    [SerializeField] GameObject deathMessage;
 
+    bool _IsDead;
+    public bool IsDead => _IsDead;
+
+    // The option is read at the moment of death, so changing it mid-game works.
+    bool AutoRespawn => PlayerPrefs.GetInt("AutoRespawn", autoRespawnDefault ? 1 : 0) == 1;
+
+    [Tooltip("Immobilise le joueur pendant l'écran de mort (évite de tomber à l'infini).")]
+    [SerializeField] bool freezeWhenDead = true;
     // Variables pour mécaniques
     int HP = 1;
     [SerializeField] public int Max_Mana = 1;
@@ -85,13 +98,13 @@ public class PlayerControler : MonoBehaviour
     // Vérifie les entrées de commandes du joueur
     void Update()
     {
-        var horizontal = Input.GetAxis("Horizontal") * MoveSpeed;
+        var horizontal = _IsDead ? 0f : Input.GetAxis("Horizontal") * MoveSpeed;        
         horizontalInput = horizontal;
         _Anim.SetFloat("MoveSpeed", Mathf.Abs(horizontal));
         _Anim.SetFloat("VelocityY", _Rb.linearVelocity.y);   // utilisé par MaleFreeController pour le saut
         FlipCharacter(horizontal);
         CheckJump();
-        CheckFall();
+        // CheckFall();
         CheckHP();
         CheckStep();
 
@@ -108,6 +121,11 @@ public class PlayerControler : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (_IsDead)
+        {
+            _Rb.linearVelocity = Vector3.zero;   // stays frozen, even if something pushes it
+            return;
+        }
         externalHorizontalVelocity = Mathf.MoveTowards(
             externalHorizontalVelocity,
             0f,
@@ -147,7 +165,7 @@ public class PlayerControler : MonoBehaviour
 
     public bool TrySpendMana(int amount)
     {
-        if (isMagicSuppressed || Current_Mana < amount || amount <= 0)
+        if (_IsDead || isMagicSuppressed || Current_Mana < amount || amount <= 0)
             return false;
 
         Current_Mana -= amount;
@@ -204,24 +222,64 @@ public class PlayerControler : MonoBehaviour
 
     }
 
-    void CheckFall()
+    // void CheckFall()
+    // {
+    //     if (transform.position.y < FallDeathHeight)
+    //     {
+    //         //deathSound = "FallDeath";
+    //         AudioManager.Instance.Play("FallDeath");
+    //     }
+    // }
+
+    public void KillByFall() //A Appeler au DeathZone
     {
-        if (transform.position.y < FallDeathHeight)
-        {
-            //deathSound = "FallDeath";
-            AudioManager.Instance.Play("FallDeath");
-        }
+        // if (HP <= 0) return;
+        deathSound = "FallDeath";
+        AudioManager.Instance.Play(deathSound);
+        HP = 0;
     }
+
+
 
     void CheckHP()
     {
-        if (HP <= 0)
+        if (HP <= 0 && !_IsDead)
         {
-            AudioManager.Instance.Play(deathSound);
-            deathSound = "Death"; 
-            Respawn();
+            bool auto = AutoRespawn;
+
+            // FallDeath only when the death screen is used, otherwise the default sound.
+            audioManager.Play(auto ? "Death" : deathSound);
+            deathSound = "Death";
+
+            if (auto) Respawn();           // instant, no screen
+            else ShowDeathScreen();        // waits for the button
         }
     }
+
+    void ShowDeathScreen()
+    {
+        _IsDead = true;
+        if (freezeWhenDead) _Rb.useGravity = false;
+
+        if (deathMessage != null) deathMessage.SetActive(true);
+
+        // Makes sure the mouse is usable to click the button.
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    // Called by the Respawn button
+    public void RespawnFromButton()
+    {
+        if (!_IsDead) return;
+
+        if (deathMessage != null) deathMessage.SetActive(false);
+        _Rb.useGravity = true;
+        Respawn();
+        _IsDead = false;
+    }
+
+
 
     void Respawn()
     {
@@ -246,6 +304,7 @@ public class PlayerControler : MonoBehaviour
     // Gère le saut du personnage, ainsi que son animation de saut
     void CheckJump()
     {
+        if (_IsDead) return;
         if (_Grounded)
         {
             if (Input.GetButtonDown("Jump"))

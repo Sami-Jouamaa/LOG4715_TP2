@@ -87,6 +87,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_FrameRateCounter.cs" />
     <Compile Include="Assets\Puxxe_Studio\3D_Low_Characters_V2\Scripts\HandObjectSwitching.cs" />
     <Compile Include="Assets\Gyms\Fireball\Fireball.cs" />
+    <Compile Include="Assets\DeathZone.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextConsoleSimulator.cs" />
     <Compile Include="Assets\Puxxe_Studio\3D_Low_Characters_V2\Scripts\CostumeSwitching.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TeleType.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ShaderPropAnimator.cs" />
     <Compile Include="Assets\Puxxe_Studio\3D_Low_Characters_V2\Scripts\ShowButtonsActionsAutoScroll.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark03.cs" />
+    <Compile Include="Assets\AutoRespawnToggle.cs" />
     <Compile Include="Assets\PlayerAnimatorDriver.cs" />
     <Compile Include="Assets\Realistic Tree\Demo Scene\Buttonscript.cs" />
     <Compile Include="Assets\MainMenu.cs" />

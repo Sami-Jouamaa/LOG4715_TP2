@@ -13,6 +13,11 @@ public class StoneFistTrapController : MonoBehaviour
     public float attackSpeed = 15f;
     public float rotationSpeed = 8f;
 
+    [Header("Audio")]
+    [Tooltip("AudioSource enfant du stone fist, clip StoneScrapping, Spatial Blend = 3D. " +
+             "Jouée en boucle pendant la patrouille (idle), coupée pendant l'attaque.")]
+    public AudioSource scrapingSource;
+
     private int currentPoint;
     private int targetPoint = 1;
     private int patrolDirection = 1;
@@ -31,6 +36,17 @@ public class StoneFistTrapController : MonoBehaviour
 
         stoneFist.position = railPoints[0].position;
         stoneFist.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+
+        if (scrapingSource != null)
+        {
+            scrapingSource.loop = true;
+            scrapingSource.playOnAwake = false;
+            UpdateScrapingSound();
+        }
+        else
+        {
+            Debug.LogWarning("Assign scrapingSource (AudioSource with StoneScrapping) for the idle sound.", this);
+        }
     }
 
     public void TriggerAttack(Transform player)
@@ -39,7 +55,7 @@ public class StoneFistTrapController : MonoBehaviour
             return;
 
         pursuitPoint = FindClosestPoint(player.position);
-        pursuing = true;
+        SetPursuing(true);
         targetPoint = FindFirstPursuitPoint();
 
         Debug.Log("Stone fist attack started!");
@@ -74,7 +90,7 @@ public class StoneFistTrapController : MonoBehaviour
 
         if (pursuing && currentPoint == pursuitPoint)
         {
-            pursuing = false;
+            SetPursuing(false);
             SetNextPatrolPoint();
         }
         else if (pursuing)
@@ -84,6 +100,33 @@ public class StoneFistTrapController : MonoBehaviour
         else
         {
             SetNextPatrolPoint();
+        }
+    }
+
+    // Centralise le changement d'état pour synchroniser le son idle.
+    private void SetPursuing(bool value)
+    {
+        if (pursuing == value)
+            return;
+
+        pursuing = value;
+        UpdateScrapingSound();
+    }
+
+    // Idle (patrouille) = StoneScrapping en boucle ; attaque = silence (l'impact prend le relais).
+    private void UpdateScrapingSound()
+    {
+        if (scrapingSource == null)
+            return;
+
+        if (pursuing)
+        {
+            if (scrapingSource.isPlaying)
+                scrapingSource.Stop();
+        }
+        else if (!scrapingSource.isPlaying)
+        {
+            scrapingSource.Play();
         }
     }
 
